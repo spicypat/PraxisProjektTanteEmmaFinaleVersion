@@ -5,12 +5,15 @@
 package supermarket1;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 
@@ -39,7 +42,7 @@ ResultSet Rs = null;
             St = Con.createStatement();
             Rs = St.executeQuery("Select * from User1.PRODUCTTBL");
             ProductTable.setModel(DbUtils.resultSetToTableModel(Rs));
-            
+            ProductTable.setDefaultRenderer(Object.class, new CustomRenderer());
         } catch (Exception e) {
            e.printStackTrace();
         }
@@ -449,4 +452,24 @@ ResultSet Rs = null;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
+}
+class CustomRenderer extends DefaultTableCellRenderer {
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+        // Change the background color of the cell based on the value
+        if (column == 2)
+        {
+            int num = Integer.parseInt(value.toString());
+            if (num <= 10) {
+                c.setBackground(new java.awt.Color(255, 102, 0));
+            } else {
+                c.setBackground(new java.awt.Color(0, 153, 0));
+            }
+        }else
+             {
+                c.setBackground(Color.WHITE);
+             }
+        return c;
+    }
 }

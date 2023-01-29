@@ -5,13 +5,18 @@
 package supermarket1;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import static javax.management.Query.value;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 
@@ -26,19 +31,20 @@ public class Products extends javax.swing.JFrame {
      */
     public Products() {
         initComponents();
-        SelectSeller();
+        SelectProduct();
         GetCat();
     }
     Connection Con = null;
 Statement St = null;
 ResultSet Rs = null;
-public void SelectSeller()
+public void SelectProduct()
 {
         try {
             Con = DriverManager.getConnection("jdbc:derby://localhost:1527/SuperMarketdb1","User1","1234");
             St = Con.createStatement();
             Rs = St.executeQuery("Select * from User1.PRODUCTTBL");
             ProductTable.setModel(DbUtils.resultSetToTableModel(Rs));
+            ProductTable.setDefaultRenderer(Object.class, new CustomRenderer());
             
         } catch (Exception e) {
            e.printStackTrace();
@@ -60,7 +66,10 @@ private void GetCat()
         } catch (Exception e) {
            e.printStackTrace();
         }
-}    
+}
+
+                
+       
        
      
     @SuppressWarnings("unchecked")
@@ -440,7 +449,7 @@ private void GetCat()
             int row = add.executeUpdate();
             JOptionPane.showMessageDialog(this, "Produkt erfolgreich hinzugefügt!");
             Con.close();
-            SelectSeller();
+            SelectProduct();
             
         }catch(Exception e)
         {
@@ -460,7 +469,7 @@ private void GetCat()
                 String Query = "Delete from User1.PRODUCTTBL where PRODID=" +PrId;
                 Statement Add = Con.createStatement();
                 Add.executeUpdate(Query);
-                SelectSeller();
+                SelectProduct();
                 JOptionPane.showMessageDialog(this, "Produkt gelöscht!");
             }catch (Exception e){
                 e.printStackTrace();
@@ -494,7 +503,7 @@ private void GetCat()
                String Query ="Update User1.PRODUCTTBL set PRODNAME='"+ProdName.getText()+"'"+",PRODQUANTITY="+ProdQty.getText()+""+",PRODPRICE="+ProdPrice.getText()+""+",PRODCAT='"+CatCb.getSelectedItem().toString()+"'"+" where PRODID="+ProdId.getText();
                Statement Add = Con.createStatement();
                Add.executeUpdate(Query);
-               SelectSeller();
+               SelectProduct();
                JOptionPane.showMessageDialog(this, "Produkt aktualisiert");
            }catch(SQLException e){
                e.printStackTrace();
@@ -529,7 +538,7 @@ private void GetCat()
         new UpdateAdmin().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel13MouseClicked
-
+    
     /**
      * @param args the command line arguments
      */
@@ -565,7 +574,7 @@ private void GetCat()
             }
         });
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddBtn;
     private javax.swing.JComboBox<String> CatCb;
@@ -594,3 +603,28 @@ private void GetCat()
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
+ class CustomRenderer extends DefaultTableCellRenderer {
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+        // Change the background color of the cell based on the value
+        if (column == 2)
+        {
+            int num = Integer.parseInt(value.toString());
+            if (num <= 10) {
+                c.setBackground(new java.awt.Color(255, 102, 0));
+            } else {
+                c.setBackground(new java.awt.Color(0, 153, 0));
+            }
+        }else
+             {
+                c.setBackground(Color.WHITE);
+             }
+        return c;
+    }
+}
+
+
+
+
+

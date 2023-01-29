@@ -110,7 +110,7 @@ public class Login extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 102, 0));
-        jLabel4.setText("UserID:");
+        jLabel4.setText("Name:");
 
         jLabel5.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 102, 0));
