@@ -320,3 +320,4 @@ ResultSet Rs = null;
     private javax.swing.JTextField password;
     // End of variables declaration//GEN-END:variables
 }
+//

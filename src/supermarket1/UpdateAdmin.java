@@ -285,3 +285,4 @@ ResultSet Rs = null;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
+//

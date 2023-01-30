@@ -467,9 +467,10 @@ class CustomRenderer extends DefaultTableCellRenderer {
                 c.setBackground(new java.awt.Color(0, 153, 0));
             }
         }else
-             {
+            {
                 c.setBackground(Color.WHITE);
-             }
+            }
         return c;
     }
 }
+//
